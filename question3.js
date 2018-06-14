@@ -8,3 +8,26 @@
 // 1¢, 1¢, 2¢
 // 1¢, 3¢
 // 2¢, 2¢
+
+function changePossibilities(amount, coins) {
+  var counter = 0;
+  var sortedCoins = coins.sort((a, b) => a - b);
+
+  (function recurse(index, remainder) {
+    var coin = sortedCoins[index];
+    if (index === 0) {
+      remainder % coin === 0 && counter++;
+      return;
+    }
+    while (remainder >= 0) {
+      recurse(index - 1, remainder);
+      remainder -= coin;
+    }
+  })(sortedCoins.length - 1, amount);
+
+  return counter;
+}
+
+var coins = [2, 1, 3];
+var amount = 4;
+console.log(changePossibilities(amount, coins) === 4);
